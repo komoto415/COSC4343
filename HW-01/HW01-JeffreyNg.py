@@ -14,8 +14,16 @@ STRINGIFY_LIST: Callable = "".join
 DEFAULT_PLAINTEXT_WRITE: str = "helloworld"
 DEFAULT_CIPHERTEXT_WRITE: str = "khoorzruog"
 
+def job_using_shift(user_resp: int) -> None:
+    """
+    Determines whether the user wants to decrypt or encrypt based on selected response and asks for the desired key
+    shift value to perform said job
 
-def shift_option(user_resp: int) -> None:
+    :param user_resp: the selected menu value
+    :type user_resp: int
+    :return: None
+    :raises ValueError: if attempted user input is not a numerical value
+    """
     job_done: bool = False
     option_name: str = ["encrypt", "decrypt"][user_resp - 1]
     while not job_done:
@@ -28,6 +36,14 @@ def shift_option(user_resp: int) -> None:
             job_done = True
 
 def encrypt(n: int = 0) -> None:
+    """
+    Reads plaintext.txt then encrypts its content with the key shift n and writes the encrypted message to
+    ciphertext.txt
+
+    :param n: the key shift
+    :type n: int
+    :return: None
+    """
     with open(PLAINTEXT_PATH, "r") as plaintext_file:
         lines: List[str] = plaintext_file.readlines()
         single_block_str: str = STRINGIFY_LIST(lines).replace('\n', '').replace(' ', '').strip()
@@ -37,7 +53,8 @@ def encrypt(n: int = 0) -> None:
 
 def decrypt(n: int = 0) -> None:
     """
-    Reads and decrypts ciphertext.txt and writes the decrypted message to plaintext.txt
+    Reads ciphertext.txt then decrypts its content with the key shift n and writes the decrypted message to
+    plaintext.txt
 
     :param n: the key shift
     :type n: int
@@ -87,8 +104,8 @@ def shift(ch: chr, n: int) -> chr:
     return chr(ch_zeroed_range + casing_offset)
 
 MENU_FETCH: Dict[int, Callable] = {
-    1: shift_option,
-    2: shift_option,
+    1: job_using_shift,
+    2: job_using_shift,
     3: break_cipher,
     4: sys.exit,
     }
@@ -130,7 +147,6 @@ def main():
         print(f"Creating {CIPHERTEXT_PATH} and writing in: {DEFAULT_CIPHERTEXT_WRITE}")
         with open(CIPHERTEXT_PATH, "w") as ciphertext_file:
             ciphertext_file.write(DEFAULT_CIPHERTEXT_WRITE)
-            pass
 
     try:
         with open(PLAINTEXT_PATH) as _:
