@@ -22,7 +22,7 @@ def job_using_shift(user_resp: int) -> None:
     :param user_resp: the selected menu value
     :type user_resp: int
     :return: None
-    :raises ValueError: if attempted user input is not a numerical value
+    :raises ValueError: if attempted user input is not an integer literal
     """
     job_done: bool = False
     option_name: str = ["encrypt", "decrypt"][user_resp - 1]
@@ -30,10 +30,11 @@ def job_using_shift(user_resp: int) -> None:
         try:
             n_shift: int = int(input(f"How much do you want to shift for your {option_name}ion? ").strip())
         except ValueError as e:
-            print(f"Error: {e}")
+            print(f"Error: {e}\nPlease type an integer value")
         else:
             globals()[option_name](n_shift)
             job_done = True
+            print(f"{option_name[0].upper()}{option_name[1:]}ion complete")
 
 def encrypt(n: int = 0) -> None:
     """
@@ -140,22 +141,22 @@ November 19, 1863
 
 def main():
     try:
-        with open(CIPHERTEXT_PATH) as _:
-            pass
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-        print(f"Creating {CIPHERTEXT_PATH} and writing in: {DEFAULT_CIPHERTEXT_WRITE}")
-        with open(CIPHERTEXT_PATH, "w") as ciphertext_file:
-            ciphertext_file.write(DEFAULT_CIPHERTEXT_WRITE)
-
-    try:
         with open(PLAINTEXT_PATH) as _:
             pass
     except FileNotFoundError as e:
         print(f"Error: {e}")
-        print(f"Creating {PLAINTEXT_PATH} and writing in: {DEFAULT_PLAINTEXT_WRITE}")
+        print(f"Creating {PLAINTEXT_PATH} and writing in: {DEFAULT_PLAINTEXT_WRITE}\n")
         with open(PLAINTEXT_PATH, "w") as plaintext_file:
             plaintext_file.write(DEFAULT_PLAINTEXT_WRITE)
+
+    try:
+        with open(CIPHERTEXT_PATH) as _:
+            pass
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        print(f"Creating {CIPHERTEXT_PATH} and writing in: {DEFAULT_CIPHERTEXT_WRITE}\n")
+        with open(CIPHERTEXT_PATH, "w") as ciphertext_file:
+            ciphertext_file.write(DEFAULT_CIPHERTEXT_WRITE)
 
     user_resp = DEFAULT_USER_RESP
     while user_resp is not EXIT_CODE:
@@ -167,10 +168,10 @@ def main():
         try:
             user_resp: int = int(input("Please pick an option: ").strip())
             if user_resp < 1 or user_resp > 4:
-                print(f"That is not a valid option\n")
+                print(f"That is not a valid menu option\n")
                 continue
         except ValueError as e:
-            print(f"Error: {e}\n")
+            print(f"Error: {e}\nPlease type an integer value\n")
         else:
             MENU_FETCH.get(user_resp)(user_resp)
         print()
