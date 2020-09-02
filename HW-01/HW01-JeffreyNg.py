@@ -127,7 +127,7 @@ def main():
             pass
     except FileNotFoundError as e:
         print(f"Error: {e}")
-        print(f"Creating {CIPHERTEXT_PATH} and writing in '{DEFAULT_CIPHERTEXT_WRITE}'")
+        print(f"Creating {CIPHERTEXT_PATH} and writing in: {DEFAULT_CIPHERTEXT_WRITE}")
         with open(CIPHERTEXT_PATH, "w") as ciphertext_file:
             ciphertext_file.write(DEFAULT_CIPHERTEXT_WRITE)
             pass
@@ -137,7 +137,7 @@ def main():
             pass
     except FileNotFoundError as e:
         print(f"Error: {e}")
-        print(f"Creating {PLAINTEXT_PATH} and writing in '{DEFAULT_PLAINTEXT_WRITE}'")
+        print(f"Creating {PLAINTEXT_PATH} and writing in: {DEFAULT_PLAINTEXT_WRITE}")
         with open(PLAINTEXT_PATH, "w") as plaintext_file:
             plaintext_file.write(DEFAULT_PLAINTEXT_WRITE)
 
