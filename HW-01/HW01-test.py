@@ -9,14 +9,14 @@ def format_file_as_single_str(ext_file: str) -> str:
         lines: List[str] = test_file.readlines()
         return '\n'.join(['\n' if line is ' ' else line.strip() for line in lines])
 
-def init(file: str, write_me: str):
+def init(file: str, write_me: str) -> None:
     with open(HW.PLAINTEXT_PATH if file is "plaintext.txt" else HW.CIPHERTEXT_PATH) as _:
         pass
     with open(file, "w") as f:
         for ch in write_me:
             f.write(ch)
 
-def get_written(file: str):
+def get_written(file: str) -> str:
     with open(file, "r") as f:
         lines: List[str] = f.readlines()
         ret: List[str] = []
@@ -30,63 +30,63 @@ def get_written(file: str):
 class MyTestCase(unittest.TestCase):
 
     def test_b_caesar_shift_helloworld(self):
-        test_str = "helloworld"
+        test_str: str = "helloworld"
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.encrypt(shift)
         actual: str = get_written(HW.CIPHERTEXT_PATH)
         expected: str = "khoorzruog"
         self.assertEqual(expected, actual)
 
     def test_c_decrypt_caesar_back_to_helloworld(self):
-        test_str = "khoorzruog"
+        test_str: str = "khoorzruog"
         init(HW.CIPHERTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.decrypt(shift)
         actual: str = get_written(HW.PLAINTEXT_PATH)
         expected: str = "helloworld"
         self.assertEqual(expected, actual)
 
     def test_d_caesar_shift_steds(self):
-        test_str = "St. Edward's University"
+        test_str: str = "St. Edward's University"
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.encrypt(shift)
         actual: str = get_written(HW.CIPHERTEXT_PATH)
         expected: str = "Vw.Hgzdug'vXqlyhuvlwb"
         self.assertEqual(expected, actual)
 
     def test_e_decrypt_caesar_back_to_steds(self):
-        test_str = "Vw.Hgzdug'vXqlyhuvlwb"
+        test_str: str = "Vw.Hgzdug'vXqlyhuvlwb"
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.decrypt(shift)
         actual: str = get_written(HW.PLAINTEXT_PATH)
         expected: str = "St.Edward'sUniversity"
         self.assertEqual(expected, actual)
 
     def test_f_caesar_shift_steds_newlines(self):
-        test_str = "St.\n\n\nEdward's\n\n University"
+        test_str: str = "St.\n\n\nEdward's\n\n University"
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.encrypt(shift)
         actual: str = get_written(HW.CIPHERTEXT_PATH)
         expected: str = "Vw.Hgzdug'vXqlyhuvlwb"
         self.assertEqual(expected, actual)
 
     def test_g_caesar_shift_my_name(self):
-        test_str = "Jeffrey Ng"
+        test_str: str = "Jeffrey Ng"
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.encrypt(shift)
         actual: str = get_written(HW.CIPHERTEXT_PATH)
         expected: str = "MhiiuhbQj"
         self.assertEqual(expected, actual)
 
     def test_h_decrypt_caesar_back_to_my_name(self):
-        test_str = "MhiiuhbQj"
+        test_str: str = "MhiiuhbQj"
         init(HW.CIPHERTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.decrypt(shift)
         actual: str = get_written(HW.PLAINTEXT_PATH)
         expected: str = "JeffreyNg"
@@ -99,9 +99,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_i_caeser_test_file_1(self):
-        test_str = format_file_as_single_str("test_1.txt")
+        test_str: str = format_file_as_single_str("test_1.txt")
         init(HW.PLAINTEXT_PATH, test_str)
-        shift = 3
+        shift: int = 3
         HW.encrypt(shift)
         actual: str = get_written(HW.CIPHERTEXT_PATH)
         expected: str = "LOryhwkhDEF'vZkdwderxwbrx?"
