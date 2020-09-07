@@ -86,14 +86,14 @@ def lazy_search_and_ask(_) -> None:
         lines: List[str] = ciphertext_file.readlines()
     lines_as_single_str: str = ''.join([line for line in lines if line != '\n']).strip()
 
-    i: int = 0
+    i: int = 1
     key_found: bool = False
-    while i < 26 and not key_found:
+    while i <= 26 and not key_found:
         well_formed_input: bool = False
         if i != 0:
             print()
         print(f"Testing Key Shift: {i}")
-        cipher_shifted_by_i: str = STRINGIFY_LIST([shift(ch, i) for ch in lines_as_single_str])
+        cipher_shifted_by_i: str = STRINGIFY_LIST([shift(ch, i*-1) for ch in lines_as_single_str])
         print(f"Below is the text using the key shift {i}")
         print(cipher_shifted_by_i)
         while not well_formed_input:
@@ -147,7 +147,6 @@ def shift(ch: chr, n: int) -> chr:
 MENU_FETCH: Dict[int, Callable] = {
     1: job_using_shift,
     2: job_using_shift,
-    # 3: break_cipher,
     3: lazy_search_and_ask,
     4: sys.exit,
     }
