@@ -7,10 +7,10 @@ HW = importlib.import_module("HW01-JeffreyNg")
 def format_file_as_single_str(ext_file: str) -> str:
     with  open(ext_file, "r") as test_file:
         lines: List[str] = test_file.readlines()
-        return '\n'.join(['\n' if line is ' ' else line.strip() for line in lines])
+        return ''.join([line for line in lines if line != '\n']).strip()
 
 def init(file: str, write_me: str) -> None:
-    with open(HW.PLAINTEXT_PATH if file is "plaintext.txt" else HW.CIPHERTEXT_PATH) as _:
+    with open(HW.PLAINTEXT_PATH if file == "plaintext.txt" else HW.CIPHERTEXT_PATH) as _:
         pass
     with open(file, "w") as f:
         for ch in write_me:
@@ -22,7 +22,7 @@ def get_written(file: str) -> str:
         ret: List[str] = []
         for line in lines:
             aux = line
-            if line is ' ':
+            if line == ' ':
                 aux = '\n'
             ret.append(aux)
         return " ".join(ret)
@@ -95,7 +95,7 @@ class MyTestCase(unittest.TestCase):
     def test_a_ext_write(self):
         test_file: str = "test_1.txt"
         actual: str = format_file_as_single_str(test_file)
-        expected: str = "I Love\nthe ABC's\n\nWhat about you?"
+        expected: str = "I Love\nthe ABC's\nWhat about you?"
         self.assertEqual(expected, actual)
 
     def test_i_caeser_test_file_1(self):

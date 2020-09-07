@@ -1,5 +1,5 @@
 import sys
-from typing import List, Dict, Callable
+from typing import List, Dict, Callable, Tuple
 
 PLAINTEXT_PATH: str = "plaintext.txt"
 CIPHERTEXT_PATH: str = "ciphertext.txt"
@@ -29,6 +29,9 @@ def job_using_shift(user_resp: int) -> None:
     while not job_done:
         try:
             n_shift: int = int(input(f"How much do you want to shift for your {option_name}ion? ").strip())
+            if n_shift < 1 or n_shift > 25:
+                print(f"Your shift must be between 1 and 25\n")
+                continue
         except ValueError as e:
             print(f"Error: {e}\nPlease type an integer value")
         else:
@@ -49,8 +52,8 @@ def encrypt(n: int = 0) -> None:
         lines: List[str] = plaintext_file.readlines()
         single_block_str: str = STRINGIFY_LIST(lines).replace('\n', '').replace(' ', '').strip()
         shifted: str = STRINGIFY_LIST([shift(ch, n) for ch in single_block_str])
-        with open(CIPHERTEXT_PATH, "w+") as ciphertext_file:
-            ciphertext_file.write(shifted)
+    with open(CIPHERTEXT_PATH, "w+") as ciphertext_file:
+        ciphertext_file.write(shifted)
 
 def decrypt(n: int = 0) -> None:
     """
@@ -64,22 +67,59 @@ def decrypt(n: int = 0) -> None:
     n *= -1
     with open(CIPHERTEXT_PATH, "r") as ciphertext_file:
         lines: List[str] = ciphertext_file.readlines()
-        with open(PLAINTEXT_PATH, "w+") as plaintext_file:
-            # plaintext_file.write('\n')
-            # plaintext_file.write('\n')
-            for i, line in enumerate(lines, 1):
-                new_line: str = STRINGIFY_LIST([shift(ch, n) for ch in line])
-                plaintext_file.write(new_line)
-                # Just ensures file has no trailing new line
-                if i is not len(lines):
-                    plaintext_file.write('\n')
+    with open(PLAINTEXT_PATH, "w+") as plaintext_file:
+        for i, line in enumerate(lines, 1):
+            new_line: str = STRINGIFY_LIST([shift(ch, n) for ch in line])
+            plaintext_file.write(new_line)
+            # Just ensures file has no trailing new line
+            if i != len(lines):
+                plaintext_file.write('\n')
 
-def break_cipher(_):
-    print("Chose break_chipher")
+def lazy_search_and_ask(_) -> None:
+    """
+    Goes all potential shifts and asks the user if it's the correct one
+
+    :param _:
+    :return: None
+    """
+    with open(CIPHERTEXT_PATH) as ciphertext_file:
+        lines: List[str] = ciphertext_file.readlines()
+    lines_as_single_str: str = ''.join([line for line in lines if line != '\n']).strip()
+
+    i: int = 0
+    key_found: bool = False
+    while i < 26 and not key_found:
+        well_formed_input: bool = False
+        if i != 0:
+            print()
+        print(f"Testing Key Shift: {i}")
+        cipher_shifted_by_i: str = STRINGIFY_LIST([shift(ch, i) for ch in lines_as_single_str])
+        print(f"Below is the text using the key shift {i}")
+        print(cipher_shifted_by_i)
+        while not well_formed_input:
+            resp: str = input("Was this the correct shift? (Y/N): ").upper().strip()
+            key_found = resp == "Y"
+            well_formed_input = resp == "Y" or resp == "N"
+        i += 1
+
+def range_fixing_ascii_range(ch: str, offset: int) -> int:
+    """
+    Converts an english alphabetic character into it's ASCII code and offsets it to sit in a range of 0-25
+
+    :param ch: the character being converted into ASCII
+    :param offset: ASCII casing offset to fixed in 0-25 range
+    :type ch: chr
+    :type offset: int
+    :return: the range fixed ASCII value
+    :raises: ValueError: if the character attempting to fixed doesn't have an ASCII code
+    """
+    if not ch.isascii():
+        raise ValueError("The character you are trying fix is not an ASCII character")
+    return ord(ch) - offset
 
 def shift(ch: chr, n: int) -> chr:
     """
-    Shifts an english alphabetic  character n number times
+    Shifts an english alphabetic character n number times
 
     :param ch: the character being shifted
     :param n: the key shift
@@ -97,17 +137,18 @@ def shift(ch: chr, n: int) -> chr:
 
     if not ch.isalpha():
         return ch
-    # Offset ascii value to to 0-25 range
+
     casing_offset: int = UPPERCASE_ASCII_OFFSET if ch.isupper() else LOWERCASE_ASCII_OFFSET
-    ch_zeroed_range: int = ord(ch) - casing_offset
-    ch_zeroed_range += n
-    ch_zeroed_range %= CHAR_SET_SIZE
-    return chr(ch_zeroed_range + casing_offset)
+    ch_range_fixed: int = range_fixing_ascii_range(ch, casing_offset)
+    ch_range_fixed += n
+    ch_range_fixed %= CHAR_SET_SIZE
+    return chr(ch_range_fixed + casing_offset)
 
 MENU_FETCH: Dict[int, Callable] = {
     1: job_using_shift,
     2: job_using_shift,
-    3: break_cipher,
+    # 3: break_cipher,
+    3: lazy_search_and_ask,
     4: sys.exit,
     }
 
@@ -161,10 +202,10 @@ def main():
     user_resp = DEFAULT_USER_RESP
     while user_resp is not EXIT_CODE:
         print("""Welcome to my awesome encryption program
-    1) Encrypt
-    2) Decrypt
-    3) Break
-    4) Exit""")
+        1) Encrypt
+        2) Decrypt
+        3) Break
+        4) Exit""")
         try:
             user_resp: int = int(input("Please pick an option: ").strip())
             if user_resp < 1 or user_resp > 4:
