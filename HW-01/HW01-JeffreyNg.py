@@ -84,23 +84,23 @@ def lazy_search_and_ask(_) -> None:
     """
     with open(CIPHERTEXT_PATH) as ciphertext_file:
         lines: List[str] = ciphertext_file.readlines()
-    lines_as_single_str: str = ''.join([line for line in lines if line != '\n']).strip()
+    lines_as_single_str: str = STRINGIFY_LIST([line for line in lines if line != '\n']).strip()
 
-    i: int = 1
+    test_shift: int = 1
     key_found: bool = False
-    while i <= 26 and not key_found:
+    while test_shift <= 25 and not key_found:
         well_formed_input: bool = False
-        if i != 0:
+        if test_shift != 0:
             print()
-        print(f"Testing Key Shift: {i}")
-        cipher_shifted_by_i: str = STRINGIFY_LIST([shift(ch, i*-1) for ch in lines_as_single_str])
-        print(f"Below is the text using the key shift {i}")
+        print(f"Testing Key Shift: {test_shift}")
+        cipher_shifted_by_i: str = STRINGIFY_LIST([shift(ch, test_shift * -1) for ch in lines_as_single_str])
+        print(f"Below is the text using the key shift {test_shift}")
         print(cipher_shifted_by_i)
         while not well_formed_input:
-            resp: str = input("Was this the correct shift? (Y/N): ").upper().strip()
+            resp: str = input("Does this look correct? (Y/N): ").upper().strip()
             key_found = resp == "Y"
             well_formed_input = resp == "Y" or resp == "N"
-        i += 1
+        test_shift += 1
 
 def range_fixing_ascii_range(ch: str, offset: int) -> int:
     """
@@ -150,34 +150,6 @@ MENU_FETCH: Dict[int, Callable] = {
     3: lazy_search_and_ask,
     4: sys.exit,
     }
-
-'''
-The Gettysburg Address
-
-Four score and seven years ago our fathers brought forth on this continent, a new nation,
-conceived in Liberty, and dedicated to the proposition that all men are created equal.
-
-Now we are engaged in a great civil war, testing whether that nation, or any nation so
-conceived and so dedicated, can long endure. We are met on a great battle field of that war.
-We have come to dedicate a portion of that field, as a final resting place for those who here
-gave their lives that that nation might live. It is altogether fitting and proper that we should do
-this.
-
-But, in a larger sense, we can not dedicate-we can not consecrate-we can not hallow-this
-ground. The brave men, living and dead, who struggled here, have consecrated it, far above our
-poor power to add or detract. The world will little note, nor long remember what we say here,
-but it can never forget what they did here. It is for us the living, rather, to be dedicated here to
-the unfinished work which they who fought here have thus far so nobly advanced. It is rather
-for us to be here dedicated to the great task remaining before us-that from these honored
-dead we take increased devotion to that cause for which they gave the last full measure of
-devotion-that we here highly resolve that these dead shall not have died in vain-that this
-nation, under God, shall have a new birth of freedom-and that government of the people, by
-the people, for the people, shall not perish from the earth.
-
-Abraham Lincoln.
-
-November 19, 1863
-'''
 
 def main():
     try:
