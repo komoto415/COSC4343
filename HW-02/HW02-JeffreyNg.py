@@ -99,16 +99,16 @@ def one_time_pad_menu() -> None:
     msg_in: str = input("What message would you like to encrypt?\n").strip()
     same_length: bool = False
     while not same_length:
-        key: str = input("What would you like to use as your key?\n").strip()
-        same_length = len(key) == len(msg_in)
+        key_in: str = input("What would you like to use as your key?\n").strip()
+        same_length = len(key_in) == len(msg_in)
         if same_length:
-            key_bin_list: List[int] = [ord(ch) for ch in key]
+            key_bin_list: List[int] = [ord(ch) for ch in key_in]
             encrypted_msg = one_time_pad(msg_in, key_bin_list)
             decrypted_msg = one_time_pad(encrypted_msg, key_bin_list)
             check(msg_in, encrypted_msg, decrypted_msg)
         else:
             print("Your key must be the same length as your message! Please pick a different key")
-            print(f"Message Length: {len(msg_in)} :: Key Length: {len(key)}")
+            print(f"Message Length: {len(msg_in)} :: Key Length: {len(key_in)}")
     else:
         print("*****One-Time Pad Completed*****")
 
