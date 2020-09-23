@@ -120,13 +120,21 @@ def rc4_menu() -> None:
     """
     print("*****RC4*****")
     msg_in: str = input("What message would you like to encrypt?\n").strip()
-    key_in: str = input("What would you like to use as your key?\n").strip()
-    rc4_encryption: RC4 = RC4(key_in)
-    key: List[int] = rc4_encryption.key_gen(msg_in)
-    encrypted_msg: str = one_time_pad(msg_in, key)
-    decrypted_msg: str = one_time_pad(encrypted_msg, key)
-    check(msg_in, encrypted_msg, decrypted_msg)
-    print("*****RC4 Completed*****")
+    less_than: bool = False
+    while not less_than:
+        key_in: str = input("What would you like to use as your key?\n").strip()
+        less_than = len(key_in) < len(msg_in)
+        if less_than:
+            rc4_encryption: RC4 = RC4(key_in)
+            key: List[int] = rc4_encryption.key_gen(msg_in)
+            encrypted_msg: str = one_time_pad(msg_in, key)
+            decrypted_msg: str = one_time_pad(encrypted_msg, key)
+            check(msg_in, encrypted_msg, decrypted_msg)
+        else:
+            print("Please use a key that is shorter than your message. Otherwise that defeats the purpose of RC4!")
+            print(f"Message Length: {len(msg_in)} :: Key Length: {len(key_in)}")
+    else:
+        print("*****RC4 Completed*****")
 
 def check(msg: str, encrypted_msg: str, decrypted_msg: str) -> None:
     """
@@ -143,7 +151,7 @@ def check(msg: str, encrypted_msg: str, decrypted_msg: str) -> None:
     print()
     print("-" * 50)
     print("Checking matching")
-    print(f"Your ciphertext:\n{encrypted_msg}")
+    print(f"Your ciphertext:\n{repr(encrypted_msg)}")
     print("-" * 50)
     print(f"Ciphertext decrypted:\n{decrypted_msg}")
     print("-" * 50)
