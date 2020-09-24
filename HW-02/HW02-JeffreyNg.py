@@ -151,7 +151,7 @@ def check(msg: str, encrypted_msg: str, decrypted_msg: str) -> None:
     print()
     print("-" * 50)
     print("Checking matching")
-    print(f"Your ciphertext:\n{repr(encrypted_msg)}")
+    print(f"Your ciphertext:\n{encrypted_msg}")
     print("-" * 50)
     print(f"Ciphertext decrypted:\n{decrypted_msg}")
     print("-" * 50)
