@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework 4</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="createCaptcha()">
+    <h3>My Totally Secure Website</h3>
+    <form id="login-form">
+        <div id="input-group">
+            <label for="username">Username:</label><br>
+            <input type="text" class="login" id="username" required>
+            <br><br>
+            <label for="password">Password:</label><br>
+            <input type="text " class="login " id="password" required>
+            <br><br>
+        </div>
+        <label for="captchaTextBox">Captcha:</label>
+        <div id="captcha">
+        </div>
+        <input type="text" placeholder="" id="captchaTextBox"> <br>
+        <br>
+        <button type="submit" class="send" id="send">Log In</button>
+    </form>
+    <script src="./js/sha256.js"></script>
+    <script src="./js/captcha.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

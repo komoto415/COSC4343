@@ -1,0 +1,28 @@
+{
+    "UserAccounts": {
+        "userID": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "username": [
+            "alice",
+            "bob",
+            "charlie",
+            "dave"
+        ],
+        "password": [
+            "d510eb0be6f678e9dcc89473a2b09965492d5efa1fb741123ade0c9a973a98ac",
+            "e56b75fe27e3920057a014b072b6e21a2f93bfae6c1d1053e42744b66fa2ad79",
+            "99cf901a32f065d4548da85eef9e0bd0fc814e81b8c73c05cfb16c517411f582",
+            "f84576dcc1e581f5cd2d83b8a753905fd29bcb0fa05d27874a943d1a60694df8"
+        ],
+        "clearance": [
+            "T",
+            "S",
+            "C",
+            "U"
+        ]
+    }
+}

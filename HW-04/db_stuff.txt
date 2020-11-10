@@ -1,0 +1,17 @@
+CREATE DATABASE homework;
+
+user homework;
+
+CREATE TABLE UserAccounts
+(
+userID int auto_increment not null,
+username varchar(30),
+password varchar(30),
+clearance ENUM ('U', 'C', 'S', 'T'),
+primary key (userID)
+) Engine=InnoDB;
+
+INSERT INTO UserAccounts VALUES (Null, 'alice', 'd510eb0be6f678e9dcc89473a2b09965492d5efa1fb741123ade0c9a973a98ac', 4);
+INSERT INTO UserAccounts VALUES (Null, 'bob', 'e56b75fe27e3920057a014b072b6e21a2f93bfae6c1d1053e42744b66fa2ad79', 3);
+INSERT INTO UserAccounts VALUES (Null, 'charlie', '99cf901a32f065d4548da85eef9e0bd0fc814e81b8c73c05cfb16c517411f582', 2);
+INSERT INTO UserAccounts VALUES (Null, 'dave', 'f84576dcc1e581f5cd2d83b8a753905fd29bcb0fa05d27874a943d1a60694df8', 1);

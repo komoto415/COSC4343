@@ -1,0 +1,17 @@
+body,
+html {
+    margin: 30px;
+    min-height: 100vh;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#login-form {
+    margin: 5px;
+}
+
+canvas {
+    /*prevent interaction with the canvas*/
+    pointer-events: none;
+}
